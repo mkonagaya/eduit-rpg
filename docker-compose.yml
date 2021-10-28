@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+  rpg-front:
+    container_name: rpg-front
+    build: ./docker/front/
+    volumes:
+      - ./front-src:/app
+    ports:
+      - "8080:8080"
+    tty: true
+  rpg-app:
+    container_name: rpg-app
+    build: ./docker/app/
+    volumes:
+      - ./api-src:/src
+      - ./docker/app/php.ini:/usr/local/etc/php/php.ini
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=${DB_HOST}
+      - DB_POST=3306
+      - DB_DATABASE=${DB_NAME}
+      - DB_USERNAME=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    restart: always
+
+  rpg-web:
+    container_name: rpg-web
+    build: ./docker/web
+    volumes:
+      - ./src:/src
+      - ./docker/web/conf.d:/etc/nginx/conf.d
+      - ./docker/web/log:/var/log/nginx/
+    ports:
+      - ${WEB_PORT}:80
+    depends_on:
+      - rpg-app
+
+networks:
+  techool_nw:
