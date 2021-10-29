@@ -24,9 +24,10 @@ services:
       - ./api-src:/src
       - ./docker/app/php.ini:/usr/local/etc/php/php.ini
     environment:
+      # laravelの.envを上書きするので注意
       - DB_CONNECTION=mysql
       - DB_HOST=${DB_HOST}
-      - DB_POST=3306
+      - DB_POST=${DB_PORT}
       - DB_DATABASE=${DB_NAME}
       - DB_USERNAME=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
