@@ -13,4 +13,11 @@ RUN apt-get update && \
     vim \
     && docker-php-ext-install pdo_mysql bcmath
 
+# Windows 専用
+ENV USER docker
+RUN useradd -m ${USER}
+RUN gpasswd -a ${USER} sudo
+RUN echo "${USER}:passwd" | chpasswd
+USER ${USER}
+
 WORKDIR /src

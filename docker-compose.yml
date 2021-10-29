@@ -2,15 +2,24 @@ version: '3.3'
 services:
   rpg-front:
     container_name: rpg-front
-    build: ./docker/front/
+    build:
+      context: ./docker/front/
+      args:
+        - UID=${UID}
+        - GID=${GID}
     volumes:
       - ./front-src:/app
     ports:
       - "8080:8080"
     tty: true
+
   rpg-app:
     container_name: rpg-app
-    build: ./docker/app/
+    build:
+      context: ./docker/app/
+      args:
+        UID: ${UID}
+        GID: ${GID}
     volumes:
       - ./api-src:/src
       - ./docker/app/php.ini:/usr/local/etc/php/php.ini
@@ -27,7 +36,7 @@ services:
     container_name: rpg-web
     build: ./docker/web
     volumes:
-      - ./src:/src
+      - ./api-src:/src
       - ./docker/web/conf.d:/etc/nginx/conf.d
       - ./docker/web/log:/var/log/nginx/
     ports:

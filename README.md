@@ -32,6 +32,24 @@ WSLを採用した場合、通常通りDドライブなどのローカルでdock
 
 WSL上で動かしているためWSLのターミナルからchmodなど叩かないといけない。
 
+## set up
+### js
+#### wsl
+```bash
+docker-compose exec rpg-front bash
+```
+
+#### docker
+```bash
+vue create eduit-rpg
+```
+
+### laravel
+
+```bash
+docker-compose exec rpg-app composer create-project --prefer-dist "laravel/laravel=6.*" .
+docker-compose exec rpg-app chmod 777 -R storage
+```
 ## ビルトインサーバ起動方法
 ### js
 #### wsl
